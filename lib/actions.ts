@@ -43,3 +43,16 @@ export async function addQuestion(question: FormData) {
       throw new Error("Failed to add vote.");
     }
   }
+
+  // export async function addAnswer(answerData: FormData) {
+  //   try {
+  //     const answerText = answerData.get("answer") as string;
+  //     const questionId = answerData.get("question_id") as string;
+
+  //     if (!answerText || !questionId) {
+  //       throw new Error("Invalid input");
+  //     }
+
+
+  //   }
+  // }
