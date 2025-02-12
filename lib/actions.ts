@@ -2,7 +2,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { insertTopic, insertQuestion, incrementVotes } from "./data";
+import { insertTopic, insertQuestion, incrementVotes, insertAnswer } from "./data";
 import { redirect } from "next/navigation";
 
 export async function addTopic(data: FormData) {
@@ -44,15 +44,21 @@ export async function addQuestion(question: FormData) {
     }
   }
 
-  // export async function addAnswer(answerData: FormData) {
-  //   try {
-  //     const answerText = answerData.get("answer") as string;
-  //     const questionId = answerData.get("question_id") as string;
+  export async function addAnswer(answer: FormData) {
+    try {
+      const answerText = answer.get("answer") as string;
+      const questionId = answer.get("question_id") as string;
 
-  //     if (!answerText || !questionId) {
-  //       throw new Error("Invalid input");
-  //     }
-
-
-  //   }
-  // }
+      if (!answerText || !questionId) {
+        throw new Error("Answer text or question id is missing");
+      }
+      await insertAnswer({
+        answer: answerText,
+        question_id: questionId,
+      });
+      revalidatePath("/ui/questions/[id]", "page");
+    } catch (error) {
+      console.error("Database error", error);
+      throw new Error("failed to add answer");
+    }
+  }

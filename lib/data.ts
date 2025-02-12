@@ -103,3 +103,17 @@ export async function fetchAnswers(questionId: string): Promise<Answer[]> {
     throw new Error("Failed to fetch answers.");
   }
 }
+
+
+export async function insertAnswer(
+  answer: Pick<Answer, "answer" | "question_id">
+) {
+  try {
+    const data =
+      await sql<Answer>`INSERT INTO answers (answer, question_id) VALUES (${answer.answer}, ${answer.question_id})`;
+    return data.rows;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to add answer.");
+  }
+}
