@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { Answer } from "@/components/Answer";
 
 export default async function Page({ params }: { params: { id: string } }) {
-    const { id } = await params;
+    const { id } = params;
     const question = await fetchQuestionbyId(id);
     const answers = await fetchAnswers(id);
     
